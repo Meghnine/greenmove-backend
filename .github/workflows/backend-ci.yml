@@ -1,5 +1,9 @@
 name: GreenMove Backend CI
 
+permissions:
+  contents: read
+  packages: write
+  
 on:
   push:
     branches: [main]
