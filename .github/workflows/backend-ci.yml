@@ -3,7 +3,7 @@ name: GreenMove Backend CI
 permissions:
   contents: read
   packages: write
-  
+
 on:
   push:
     branches: [main]
@@ -31,5 +31,15 @@ jobs:
       - name: Vérifier le code Python
         run: python -m compileall greenmove-backend/app
 
+      - name: Se connecter à GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Construire l'image Docker
-        run: docker build -t greenmove-backend .
+        run: docker build -t ghcr.io/meghnine/greenmove-backend:latest .
+
+      - name: Publier l'image Docker
+        run: docker push ghcr.io/meghnine/greenmove-backend:latest
